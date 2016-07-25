@@ -1,0 +1,1225 @@
+\documentclass[12pt]{article}
+
+\usepackage[pdftex,pagebackref,letterpaper=true,colorlinks=true,pdfpagemode=none,urlcolor=blue,linkcolor=blue,citecolor=blue,pdfstartview=FitH]{hyperref}
+\usepackage{amsmath, amssymb, graphics, setspace}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{pifont}
+\usepackage[usenames, dvipsnames]{color}
+
+\usepackage{amsmath,amsfonts}
+\usepackage{graphicx}
+\usepackage{color}
+
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.0in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+\setlength{\parindent}{0in}
+\setlength{\parskip}{5px}
+
+
+
+% This first part of the file is called the PREAMBLE. It includes
+% customizations and command definitions. The preamble is everything
+% between \documentclass and \begin{document}.
+
+%%\usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+%%\usepackage{graphicx}              % to include figures
+%%\usepackage{amsmath}               % great math stuff
+%%\usepackage{amsfonts}              % for blackboard bold, etc
+%%\usepackage{amsthm}                % better theorem environments
+
+
+% various theorems, numbered by section
+
+%%\newtheorem{thm}{Theorem}[section]
+%%\newtheorem{lem}[thm]{Lemma}
+%%\newtheorem{prop}[thm]{Proposition}
+%%\newtheorem{cor}[thm]{Corollary}
+%%\newtheorem{conj}[thm]{Conjecture}
+
+%%\DeclareMathOperator{\id}{id}
+
+%%\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+%%\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+%%\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+%%\newcommand{\col}[1]{[\begin{matrix} #1 \end{matrix} ]}
+%%\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+
+
+
+\def\B{\{0,1\}}
+\def\xor{\oplus}
+
+\def\P{{\mathbb P}}
+\def\E{{\mathbb E}}
+\def\var{{\bf Var}}
+
+\def\N{{\mathbb N}}
+\def\Z{{\mathbb Z}}
+\def\R{{\mathbb R}}
+\def\Co{{\mathbb C}}
+\def\Q{{\mathbb Q}}
+\def\eps{{\epsilon}}
+
+\def\bz{{\bf z}}
+
+\def\true{{\tt true}}
+\def\false{{\tt false}}
+
+\title{General Method for Summing Divergent Series Using Mathematica and a Comparison to Other Summation Methods}
+\author{Sinisa Bubonja}
+
+\date{25.11.2015.}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+We are interested in finding sums of some divergent series using the general method for summing divergent series discovered in our previous work\cite{bub} and symbolic mathematical computation program Mathematica. We make a comparison to other five summation methods implemented in Mathematica and show that our method is the stronger method than methods of Abel, Borel, Cesaro, Dirichlet and Euler.
+\end{abstract}
+
+\tableofcontents  
+  
+\section{Introduction}
+
+The aim of this paper is to show readers how to sum divergent series using the summation method discovered in our previous work\footnote{In our previous work we discovered a general method for summing divergent series and determination of limits of divergent sequences and functions in singular points. We also showed that the method is useful for solving divergent integrals.} and symbolic mathematical computation program Mathematica and make a comparison to other five summation methods implemented in Mathematica. As for prerequisites, the reader is expected to be familiar with real and complex analysis in one variable.\\
+In this section, we summarize without proofs the relevant results on the general method for summing divergent series and give the sums of some divergent series from Hardy's book\cite{har} and Ramanujan's notebook\cite{ram}.\\
+In Section 2 these sums are solved using Mathematica and general method for summing divergent series.\\
+In Section 3 we give a table with comparison to the five most famous summation methods (Abel, Borel, Cesaro, Dirichlet and Euler) which are also used to find the sums of series from Section 2 and show that our method is the strongest (see \cite{tuc} for the history of the theory of summable divergent series).\\
+Suppose the function f has a singularity at infinity. Let's define the general limit of f(z) as z approaches infinity, denoted by $\lim_{z\to\infty}^{D}f(z)$. \\
+We obtain the following results:\\
+(a) If f has a pole of order $m$ at infinity, then $$\lim_{z\to\infty}^{D}f(z)=\int_{-1}^0 \sum_{n=0}^{m} c_n z^n dz,$$ where $f(z)=\sum_{n=-\infty}^{m}c_n z^n $ $(|z|>R)$ is the Laurent series expansion
+of f about infinity.\\
+(b) If f has a removable singularity at infinity, then $$\lim_{z\to\infty}^{D}f(z)=c_0=\lim_{z\to\infty}f(z),$$ where $f(z)=\sum_{n=-\infty}^{0}c_n z^n $ $(|z|>R)$ is the Laurent series expansion
+of f about infinity.
+(c) If f has essential singularity or branch point at infinity, then $$\lim_{z\to\infty}^{D}f(z)=c,$$ where $c$ is constant part of any series expansion (Laurent series expansion, Puiseux series expansion, ...) of f about infinity.\\
+General limit is linear (in terms of additivity and pulling out scalars):$$\lim_{z\to\infty}^{D}(f(z)+g(z))=\lim_{z\to\infty}^{D}f(z)+\lim_{z\to\infty}^{D}g(z),$$ $$\lim_{z\to\infty}^{D}\lambda f(z)=\lambda \lim_{z\to\infty}^{D}f(z).$$
+Finally, if $\sum_{n=1}^{\infty} a_n$ is divergent series, then $$\sum_{n=1}^{\infty} a_n=\lim_{z\to\infty}^D s(z),$$ where $s(n)=s_n=\sum_{k=1}^n a_k$ is nth partial sum.
+\\
+Now, we give the following sums:
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1} = 1-1+1-1+...+(-1)^{n-1}+... = \frac{1}{2}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} 2^{n-1} = 1+2+4+8+...+2^{n-1}+... = -1
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1} 2^{n-1} = 1-2+4-8+...+(-2)^{n-1}+... = \frac{1}{3}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} a^{n-1} = 1+a+a^2+a^3+...+a^{n-1}+... = \frac{1}{1-a}(a>1)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1} n = 1-2+3-4+...+(-n)^{n-1}+... = \frac{1}{4}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} n = 1+2+3+4+...+n+... = -\frac{1}{12}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} 1 = 1+1+1+1+...+1+... = -\frac{1}{2}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (n+1) = 2+3+4+5+...+(n+1)+... = -\frac{7}{12}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (n-1) = 0+1+2+3+...+(n-1)+... = \frac{5}{12}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} \ln(n) = \ln1+\ln2+\ln3+\ln4+...+\ln(n)+... = \frac{1}{2}\ln(2\pi)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1} \ln(n) = \ln1-\ln2+\ln3-\ln4+...+(-1)^{n-1}\ln(n)+... = -\frac{1}{2}\ln(\frac{1}{2}\pi)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} \cos (n\theta) = \cos\theta+\cos2\theta+\cos3\theta+\cos4\theta+...+\cos (n\theta)+... = -\frac{1}{2} (0<\theta<2\pi)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} \sin (n\theta) = \sin\theta+\sin2\theta+\sin3\theta+\sin4\theta+...+\sin (n\theta)+... = \frac{1}{2}\cot\frac{\theta}{2} (0<\theta<2\pi)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1} \cos (n\theta) = \cos\theta-\cos2\theta+\cos3\theta-\cos4\theta+...+(-1)^{n-1}\cos (n\theta)+... = \frac{1}{2} (-\pi<\theta<\pi)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1} \sin (n\theta) = \sin\theta-\sin2\theta+\sin3\theta-\sin4\theta+...+(-1)^{n-1}\sin (n\theta)+... = \frac{1}{2}\tan\frac{\theta}{2} (-\pi<\theta<\pi)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1} n^{2k}= 1^{2k}-2^{2k}+3^{2k}-4^{2k}+...+(-1)^{n-1}n^{2k}+... = 0 (k=1,2,3...)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1}n^{2k-1} = 1^{2k-1}-2^{2k-1}+3^{2k-1}-4^{2k-1}+...+(-1)^{n-1}n^{2k-1}+... = \frac{2^{2k}-1}{2k} B_{2k} (k=1,2,3...)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} n^k = 1^k+2^k+3^k+4^k+...+n^k+... = -\frac{B_{k+1}}{k+1}(k=1,2,3,...)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} n^{-s} = 1^{-s}+2^{-s}+3^{-s}+4^{-s}+...+n^{-s}+... = \zeta(s)(Re(s)<1)
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (1-((n-1)\mod 3)) = 1+0+(-1)+1+0+(-1)+... = \frac{2}{3}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (((n+1)\mod 3)-1) = 1+(-1)+0+1+(-1)+0+... = \frac{1}{3}
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (-1)^{n-1}(n-1)! = 1-1!+2!-3!+4!-...+(-1)^{n-1}(n-1)!+... = 1-e\cdot E_{2}(1)\approx 0,596347
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} (n-1)! = 1+1!+2!+3!+4!+...+(n-1)!+... = 1+!(-2)\approx 0.697175 + 1.15573 \cdot i.
+\end{equation}
+
+\begin{equation}
+\sum_{n=1}^{\infty} \frac{1}{n} = 1+\frac{1}{2}+\frac{1}{3}+\frac{1}{4}+\frac{1}{5}+...+\frac{1}{n}+... = \gamma\approx 0.57721566
+\end{equation}
+
+\section{General Method for Summing Divergent Series Using Mathematica}
+
+Calculate the sum of the series (1).
+
+ \begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*n,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1),\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (1+(-1)^{1+k})\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (1+(-1)^{1+k})\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SeriesCoefficient}[\%,0]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (1+(-1)^{1+k})\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%, k]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{2}}}+\frac{1}{2} (-1)^{1+k}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (2).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[2{}^{\wedge}(n-1),n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[2{}^{\wedge}(n-1),\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(-1+2^k\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(-1+2^k\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%,k]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{-1}}+2^k\) \\
+\end{doublespace}
+
+Calculate the sum of the series (3).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*2{}^{\wedge}(n-1),n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1)*2{}^{\wedge}(n-1),\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{3} (1-(-2)^k)\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{3} (1-(-2)^k)\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%,k]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{3}}}-\frac{(-2)^k}{3}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (4).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[a{}^{\wedge}(n-1),n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Abs}[a]<1\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[a{}^{\wedge}(n-1),\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{-1+a^k}{-1+a}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{-1+a^k}{-1+a}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%, k]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{-\frac{1}{-1+a}}}+\frac{a^k}{-1+a}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (5).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*n,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1)*n,\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{4} (1+(-1)^{1+k}-2 (-1)^k k)\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{4} (1+(-1)^{1+k}+(-1)^k (-2 k+O[\frac{1}{k}]^{11}))\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%,k]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{4}}}+\frac{1}{4} (-1)^{1+k}+(-1)^k (-\frac{k}{2}+O[\frac{1}{k}]^{11})\) \\
+\end{doublespace}
+
+Calculate the sum of the series (6).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[n,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[n,\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} k (1+k)\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{k^2}{2}+\frac{k}{2}+O[\frac{1}{k}]^{11}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Normal}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{k}{2}+\frac{k^2}{2}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Integrate}[\%,\{k,-1,0\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{-\frac{1}{12}}}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (7).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[1,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[1,\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(k\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(k+O[\frac{1}{k}]^{11}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Normal}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(k\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Integrate}[\%,\{k,-1,0\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{-\frac{1}{2}}}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (8).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[n+1,n]}\) \\
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[n+1,\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (3 k+k^2)\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{k^2}{2}+\frac{3 k}{2}+O[\frac{1}{k}]^{11}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Normal}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{3 k}{2}+\frac{k^2}{2}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Integrate}[\%,\{k,-1,0\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{-\frac{7}{12}}}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (9).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[n-1,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[n-1,\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (-k+k^2)\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{k^2}{2}-\frac{k}{2}+O[\frac{1}{k}]^{11}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Normal}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(-\frac{k}{2}+\frac{k^2}{2}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Integrate}[\%,\{k,-1,0\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{5}{12}}}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (10).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[\text{Log}[n],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[\text{Log}[n],\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Log}[\text{Pochhammer}[1,k]]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\((-1+\text{Log}[k]) k+\frac{1}{2} (-\text{Log}[\frac{1}{k}]+\text{Log}[2 \pi ])+\frac{1}{12 k}-\frac{1}{360 k^3}+\frac{1}{1260
+k^5}-\frac{1}{1680 k^7}+\frac{1}{1188 k^9}+O[\frac{1}{k}]^{21/2}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%,k]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\bf{\textcolor{Green}{0}}+\noindent\((-1+\text{Log}[k]) k+(-\frac{1}{2} \text{Log}[\frac{1}{k}]+\frac{1}{2} \text{Log}[2 \pi ])+\frac{1}{12 k}-\frac{1}{360
+k^3}+\frac{1}{1260 k^5}-\frac{1}{1680 k^7}+\frac{1}{1188 k^9}+O[\frac{1}{k}]^{21/2}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (11).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*\text{Log}[n],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1)*\text{Log}[n],\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Log}[2]-\frac{1}{2} (-1)^k \text{Log}[2]-\frac{1}{2} \text{Log}[2 \pi ]+(-1)^k \text{Log}[\text{Gamma}[\frac{1+k}{2}]]+(-1)^{1+k}
+\text{Log}[\text{Gamma}[\frac{2+k}{2}]]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (2 \text{Log}[2]+(-1)^{1+k} \text{Log}[2]-\text{Log}[2 \pi ]+(-1)^k ((1+\text{Log}[2]-\text{Log}[k]) k+(\text{Log}[\frac{1}{k}]-\text{Log}[\pi
+]-\frac{1}{3 k}+\frac{2}{45 k^3}-\frac{16}{315 k^5}+\frac{16}{105 k^7}-\frac{256}{297 k^9}+O[\frac{1}{k}]^{21/2})+(-1)^k
+((-1-\text{Log}[2]+\text{Log}[k]) k+\text{Log}[2 \pi ]-\frac{1}{6 k}+\frac{7}{180 k^3}-\frac{31}{630 k^5}+\frac{127}{840 k^7}-\frac{511}{594
+k^9}+O[\frac{1}{k}]^{21/2}))\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%,k]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\text{Log}[2]}}+\frac{1}{2} (-1)^{1+k} \text{Log}[2]\bf{\textcolor{Green}{-\frac{1}{2} \text{Log}[2 \pi ]}}+(-1)^k (\frac{1}{2} (1+\text{Log}[2]-\text{Log}[k])
+k+\frac{1}{2} (\text{Log}[\frac{1}{k}]-\text{Log}[\pi ])-\frac{1}{6 k}+\frac{1}{45 k^3}-\frac{8}{315 k^5}+\frac{8}{105 k^7}-\frac{128}{297
+k^9}+O[\frac{1}{k}]^{21/2})+(-1)^k (\frac{1}{2} (-1-\text{Log}[2]+\text{Log}[k]) k+\frac{1}{2} \text{Log}[2 \pi ]-\frac{1}{12
+k}+\frac{7}{360 k^3}-\frac{31}{1260 k^5}+\frac{127}{1680 k^7}-\frac{511}{1188 k^9}+O[\frac{1}{k}]^{21/2})\) \\
+\end{doublespace}
+
+Calculate the sum of the series (12).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[\text{Cos}[n*\theta ],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[\text{Cos}[n*\theta ],\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Cos}[\frac{1}{2} (1+k) \theta ] \text{Csc}[\frac{\theta }{2}] \text{Sin}[\frac{k \theta }{2}]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Cos}[\frac{\theta }{2}+\frac{k \theta }{2}] \text{Csc}[\frac{\theta }{2}] \text{Sin}[\frac{k \theta }{2}]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{TrigExpand}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{-\frac{1}{2}}}+\frac{1}{2} \text{Cos}[\frac{k \theta }{2}]^2+\text{Cos}[\frac{k \theta }{2}] \text{Cot}[\frac{\theta
+}{2}] \text{Sin}[\frac{k \theta }{2}]-\frac{1}{2} \text{Sin}[\frac{k \theta }{2}]^2\) \\
+\end{doublespace}
+
+Calculate the sum of the series (13).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[\text{Sin}[n*\theta ],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[\text{Sin}[n*\theta ],\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Csc}[\frac{\theta }{2}] \text{Sin}[\frac{k \theta }{2}] \text{Sin}[\frac{1}{2} (1+k) \theta ]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Csc}[\frac{\theta }{2}] \text{Sin}[\frac{k \theta }{2}] \text{Sin}[\frac{\theta }{2}+\frac{k \theta }{2}]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{TrigExpand}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{2} \text{Cot}[\frac{\theta }{2}]}}-\frac{1}{2} \text{Cos}[\frac{k \theta }{2}]^2 \text{Cot}[\frac{\theta
+}{2}]+\text{Cos}[\frac{k \theta }{2}] \text{Sin}[\frac{k \theta }{2}]+\frac{1}{2} \text{Cot}[\frac{\theta }{2}]
+\text{Sin}[\frac{k \theta }{2}]^2\) \\
+\end{doublespace}
+
+Calculate the sum of the series (14).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*\text{Cos}[n*\theta ],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{SumConvergence}[(-1)^{-1+n} \text{Cos}[n \theta ],n]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1)*\text{Cos}[n*\theta ],\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (1+(-1)^{1+k} \text{Cos}[\frac{1}{2} (1+2 k) \theta ] \text{Sec}[\frac{\theta }{2}])\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (1+(-1)^{1+k} \text{Cos}[\frac{\theta }{2}+k \theta ] \text{Sec}[\frac{\theta }{2}])\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{TrigExpand}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{2}}}-\frac{1}{2} (-1)^k \text{Cos}[k \theta ]+\frac{1}{2} (-1)^k \text{Sin}[k \theta ] \text{Tan}[\frac{\theta }{2}]\) \\
+\end{doublespace}
+
+Calculate the sum of the series (15).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*\text{Sin}[n*\theta ],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{SumConvergence}[(-1)^{-1+n} \text{Sin}[n \theta ],n]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1)*\text{Sin}[n*\theta ],\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Csc}[\theta ] \text{Sin}[\frac{\theta }{2}] (\text{Sin}[\frac{\theta }{2}]+(-1)^{1+k} \text{Sin}[\frac{1}{2}
+(1+2 k) \theta ])\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Csc}[\theta ] \text{Sin}[\frac{\theta }{2}] (\text{Sin}[\frac{\theta }{2}]+(-1)^{1+k} \text{Sin}[\frac{\theta
+}{2}+k \theta ])\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{TrigExpand}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{-\frac{1}{4} \text{Cot}[\frac{\theta }{2}]}}+\frac{1}{4} (-1)^k \text{Cos}[k \theta ] \text{Cot}[\frac{\theta }{2}]\bf{\textcolor{Green}{+\frac{1}{4}
+\text{Csc}[\frac{\theta }{2}] \text{Sec}[\frac{\theta }{2}]}}-\frac{1}{4} (-1)^k \text{Cos}[k \theta ] \text{Csc}[\frac{\theta
+}{2}] \text{Sec}[\frac{\theta }{2}]-\frac{1}{2} (-1)^k \text{Sin}[k \theta ]\bf{\textcolor{Green}{+\frac{1}{4} \text{Tan}[\frac{\theta }{2}]}}-\frac{1}{4}
+(-1)^k \text{Cos}[k \theta ] \text{Tan}[\frac{\theta }{2}]\) \\
+\end{doublespace}
+
+Calculate the sum of the series (16).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*n{}^{\wedge}(2*k),n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(-2 \text{Re}[k]>1\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1)*n{}^{\wedge}(2*k),\{n,1,m\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Zeta}[-2 k]-2^{1+2 k} \text{Zeta}[-2 k]+(-1)^{1+m} 2^{2 k} \text{Zeta}[-2 k,\frac{1+m}{2},\text{IncludeSingularTerm}\to \text{False}]+(-1)^m
+2^{2 k} \text{Zeta}[-2 k,\frac{2+m}{2},\text{IncludeSingularTerm}\to \text{False}]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{m,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Zeta}[-2 k]-2^{1+2 k} \text{Zeta}[-2 k]+(-1)^{1+m} 2^{2 k} \text{Zeta}[-2 k,\frac{1}{2}+\frac{m}{2},\text{IncludeSingularTerm}\to
+\text{False}]+(-1)^m 2^{2 k} \text{Zeta}[-2 k,1+\frac{m}{2},\text{IncludeSingularTerm}\to \text{False}]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\text{Zeta}[-2 k]-2^{1+2 k} \text{Zeta}[-2 k]}}+(-1)^{1+m} 2^{2 k} \text{Zeta}[-2 k,\frac{1}{2}+\frac{m}{2},\text{IncludeSingularTerm}\to
+\text{False}]+(-1)^m 2^{2 k} \text{Zeta}[-2 k,1+\frac{m}{2},\text{IncludeSingularTerm}\to \text{False}]\) \\
+\end{doublespace}
+
+Calculate the sum of the series (17).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*n{}^{\wedge}(2*k-1),n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Re}[k]<0\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1)*n{}^{\wedge}(2*k-1),\{n,1,m\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (2 \text{Zeta}[1-2 k]-2^{1+2 k} \text{Zeta}[1-2 k]+(-1)^{1+m} 2^{2 k} \text{Zeta}[1-2 k,\frac{1+m}{2},\text{IncludeSingularTerm}\to
+\text{False}]+(-1)^m 2^{2 k} \text{Zeta}[1-2 k,\frac{2+m}{2},\text{IncludeSingularTerm}\to \text{False}])\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{m,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\frac{1}{2} (2 \text{Zeta}[1-2 k]-2^{1+2 k} \text{Zeta}[1-2 k]+(-1)^{1+m} 2^{2 k} \text{Zeta}[1-2 k,\frac{1}{2}+\frac{m}{2},\text{IncludeSingularTerm}\to
+\text{False}]+(-1)^m 2^{2 k} \text{Zeta}[1-2 k,1+\frac{m}{2},\text{IncludeSingularTerm}\to \text{False}])\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\text{Zeta}[1-2 k]-2^{2 k} \text{Zeta}[1-2 k]}}+(-1)^{1+m} 2^{-1+2 k} \text{Zeta}[1-2 k,\frac{1}{2}+\frac{m}{2},\text{IncludeSingularTerm}\to
+\text{False}]+(-1)^m 2^{-1+2 k} \text{Zeta}[1-2 k,1+\frac{m}{2},\text{IncludeSingularTerm}\to \text{False}]\) \\
+\end{doublespace}
+
+Calculate the sum of the series (18).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[n{}^{\wedge}k,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(1+\text{Re}[k]<0\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[n{}^{\wedge}k,\{n,1,m\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{HarmonicNumber}[m,-k]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{m,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(m^k (\frac{m}{1+k}+\frac{1}{2}+\frac{k}{12 m}+\frac{-2 k+3 k^2-k^3}{720 m^3}+\frac{(-4+k) (-3+k) (-2+k) (-1+k) k}{30240 m^5}-\frac{(-6+k)
+(-5+k) (-4+k) (-3+k) (-2+k) (-1+k) k}{1209600 m^7}+\frac{(-8+k) (-7+k) (-6+k) (-5+k) (-4+k) (-3+k) (-2+k) (-1+k) k}{47900160 m^9}+O[\frac{1}{m}]^{11})+\text{Zeta}[-k]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(m^k (\frac{m}{1+k}+\frac{1}{2}+\frac{k}{12 m}+\frac{-\frac{k}{360}+\frac{k^2}{240}-\frac{k^3}{720}}{m^3}+\frac{\frac{k}{1260}-\frac{5
+k^2}{3024}+\frac{k^3}{864}-\frac{k^4}{3024}+\frac{k^5}{30240}}{m^5}+\frac{-\frac{k}{1680}+\frac{7 k^2}{4800}-\frac{29 k^3}{21600}+\frac{7 k^4}{11520}-\frac{k^5}{6912}+\frac{k^6}{57600}-\frac{k^7}{1209600}}{m^7}+\frac{\frac{k}{1188}-\frac{761
+k^2}{332640}+\frac{29531 k^3}{11975040}-\frac{89 k^4}{63360}+\frac{1069 k^5}{2280960}-\frac{k^6}{10560}+\frac{13 k^7}{1140480}-\frac{k^8}{1330560}+\frac{k^9}{47900160}}{m^9}+O[\frac{1}{m}]^{11})+\bf{\textcolor{Green}{\text{Zeta}[-k]}}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (19).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[n{}^{\wedge}(-s),n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{Re}[s]>1\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[n{}^{\wedge}(-s),\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{HarmonicNumber}[k,s]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(k^{-s} (-\frac{k}{-1+s}+\frac{1}{2}-\frac{s}{12 k}+\frac{s (1+s) (2+s)}{720 k^3}-\frac{s (1+s) (2+s) (3+s) (4+s)}{30240 k^5}+\frac{s
+(1+s) (2+s) (3+s) (4+s) (5+s) (6+s)}{1209600 k^7}-\frac{s (1+s) (2+s) (3+s) (4+s) (5+s) (6+s) (7+s) (8+s)}{47900160 k^9}+O[\frac{1}{k}]^{11})+\text{Zeta}[s]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(k^{-s} (-\frac{k}{-1+s}+\frac{1}{2}-\frac{s}{12 k}+\frac{\frac{s}{360}+\frac{s^2}{240}+\frac{s^3}{720}}{k^3}+\frac{-\frac{s}{1260}-\frac{5
+s^2}{3024}-\frac{s^3}{864}-\frac{s^4}{3024}-\frac{s^5}{30240}}{k^5}+\frac{\frac{s}{1680}+\frac{7 s^2}{4800}+\frac{29 s^3}{21600}+\frac{7 s^4}{11520}+\frac{s^5}{6912}+\frac{s^6}{57600}+\frac{s^7}{1209600}}{k^7}+\frac{-\frac{s}{1188}-\frac{761
+s^2}{332640}-\frac{29531 s^3}{11975040}-\frac{89 s^4}{63360}-\frac{1069 s^5}{2280960}-\frac{s^6}{10560}-\frac{13 s^7}{1140480}-\frac{s^8}{1330560}-\frac{s^9}{47900160}}{k^9}+O[\frac{1}{k}]^{11})+\bf{\textcolor{Green}{\text{Zeta}[s]}}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (20).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[\text{Mod}[2+2 n,3,-1],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[\text{Mod}[2+2 n,3,-1],\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(1+\text{Floor}[\frac{1}{3} (-1+k)]-\text{Floor}[\frac{k}{3}]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(1+\text{Floor}[-\frac{1}{3}+\frac{k}{3}]-\text{Floor}[\frac{k}{3}]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{1}}+\text{Floor}[\bf{\textcolor{Green}{-\frac{1}{3}}}+\frac{k}{3}]-\text{Floor}[\frac{k}{3}]\)\footnote{We know if x is not an integer we have $\lfloor x\rfloor=x-\frac{1}{2}+\frac{1}{\pi}\sum_{k=1}^{\infty}\frac{2\pi kx}{k}$.} \\
+\end{doublespace}
+
+Calculate the sum of the series (21).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[\text{Mod}[n,3,-1],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[\text{Mod}[n,3,-1],\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(-\text{Floor}[\frac{1}{3} (-2+k)]+\text{Floor}[\frac{1}{3} (-1+k)]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(-\text{Floor}[-\frac{2}{3}+\frac{k}{3}]+\text{Floor}[-\frac{1}{3}+\frac{k}{3}]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{-}}\text{Floor}[\bf{\textcolor{Green}{-\frac{2}{3}}}+\frac{k}{3}]+\text{Floor}[\bf{\textcolor{Green}{-\frac{1}{3}}}+\frac{k}{3}]\) \\
+\end{doublespace}
+
+Calculate the sum of the series (22).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(-1){}^{\wedge}(n-1)*(n-1)!,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{RSolve}[\{s[n]==s[n-1]+(-1){}^{\wedge}(n-1)*(n-1)!,s[1]==1\},s[n],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\{\{s[n]\to 1-e \text{ExpIntegralE}[2,1]+(-1)^{1+n} e \text{ExpIntegralE}[1+n,1] n!\}\}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[1-e \text{ExpIntegralE}[2,1]+(-1)^{1+n} e \text{ExpIntegralE}[1+n,1] n!,.}\\
+\pmb{\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(1-e \text{ExpIntegralE}[2,1]+(-1)^{1+n} e \text{ExpIntegralE}[1+n,1] n!\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(1-e \text{ExpIntegralE}[2,1]+(-1)^{1+n} e \text{ExpIntegralE}[1+n,1] n!\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{N[1-e \text{ExpIntegralE}[2,1]]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{0.596347}}\) \\
+\end{doublespace}
+
+Calculate sum of the series (23).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[(n-1)!,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{RSolve}[\{s[n]==s[n-1]+(n-1)!,s[1]==1\},s[n],n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\{\{s[n]\to 1+\text{Subfactorial}[-2]+(-1)^n n! \text{Subfactorial}[-1-n]\}\}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[1+\text{Subfactorial}[-2]+(-1)^n n! \text{Subfactorial}[-1-n],\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(1+\text{Subfactorial}[-2]+(-1)^n n! \text{Subfactorial}[-1-n]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(1+\text{Subfactorial}[-2]+(-1)^n n! \text{Subfactorial}[-1-n]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{N[1+\text{Subfactorial}[-2]]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{0.697175\, +1.15573 i}}\) \\
+\end{doublespace}
+
+Calculate the sum of the series (24).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{SumConvergence}[1/n,n]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{False}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[1/n,\{n,1,k\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\text{HarmonicNumber}[k]\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Series}[\%,\{k,\text{Infinity},10\}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\((\text{EulerGamma}-\text{Log}[\frac{1}{k}])+\frac{1}{2 k}-\frac{1}{12 k^2}+\frac{1}{120 k^4}-\frac{1}{252 k^6}+\frac{1}{240
+k^8}-\frac{1}{132 k^{10}}+O[\frac{1}{k}]^{11}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{ExpandAll}[\%]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\((\bf{\textcolor{Green}{\text{EulerGamma}}}-\text{Log}[\frac{1}{k}])+\frac{1}{2 k}-\frac{1}{12 k^2}+\frac{1}{120 k^4}-\frac{1}{252 k^6}+\frac{1}{240
+k^8}-\frac{1}{132 k^{10}}+O[\frac{1}{k}]^{11}\)
+\end{doublespace}
+
+\section{Comparison to Other Summation Methods}
+
+We can obtain the same answers for some of above sums using the {\it Regularization} option for {\it Sum} as follows. For example, calculate the sum (1).
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1),\{n,1,\text{Infinity}\},\text{Regularization}\to \text{{``}Abel{''}}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{2}}}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1),\{n,1,\text{Infinity}\},\text{Regularization}\to \text{{``}Borel{''}}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{2}}}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1),\{n,1,\text{Infinity}\},\text{Regularization}\to \text{{``}Cesaro{''}}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{2}}}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1),\{n,1,\text{Infinity}\},\text{Regularization}\to \text{{``}Dirichlet{''}}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{2}}}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\pmb{\text{Sum}[(-1){}^{\wedge}(n-1),\{n,1,\text{Infinity}\},\text{Regularization}\to \text{{``}Euler{''}}]}\)
+\end{doublespace}
+
+\begin{doublespace}
+\noindent\(\bf{\textcolor{Green}{\frac{1}{2}}}\)
+\end{doublespace}
+
+The results of our method and other five are summarized in following table:\\
+
+\begin{tabular}{|l|c|c|c|c|c|c|}\hline
+\multirow{2}{*}{\bf Divergent series} & \multicolumn{6}{|c|}{\bf Sumation method}\\ \cline{2-7}
+ & \multicolumn{1}{|c|}{\begin{sideways}\it Abel \,\end{sideways}} & \multicolumn{1}{|c|}{\begin{sideways}\it Borel \,\end{sideways}} & \multicolumn{1}{|c|}{\begin{sideways}\it Cesaro \,\end{sideways}} & \multicolumn{1}{|c|}{\begin{sideways}\it Dirichlet \,\end{sideways}} & \multicolumn{1}{|c|}{\begin{sideways}\it Euler \,\end{sideways}} & \multicolumn{1}{|c|}{\begin{sideways}\it Bubonja \,\end{sideways}} \\ \hline
+ 
+$\sum_{n=1}^{\infty} (-1)^{n-1}$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} 2^{n-1}$ & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (-1)^{n-1} 2^{n-1}$ & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} a^{n-1}$ & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (-1)^{n-1} n$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} n$ & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} 1$ & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (n+1)$ & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (n-1)$ & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} \ln(n)$ & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (-1)^{n-1} \ln(n)$ & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} \cos (n\theta)$ & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} \sin (n\theta)$ & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (-1)^{n-1} \cos (n\theta)$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (-1)^{n-1} \sin (n\theta)$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (-1)^{n-1} n^{2k}$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (-1)^{n-1}n^{2k+1}$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} n^k$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} n^{-s}$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (1-((n-1)\mod 3))$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (((n+1)\mod 3)-1)$ & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (-1)^{n-1}(n-1)!$ & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} (n-1)!$ & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline
+
+$\sum_{n=1}^{\infty} \frac{1}{n}$ & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Red}{\xmark} & \textcolor{Green}{\cmark} \\ \hline 
+
+\end{tabular}
+
+
+It is easily seen that our method is strongest method around for summing divergent series (see for instance description of the method in Section 1 and results in above table).
+
+\begin{thebibliography}{9}
+
+\bibitem{bub} Sinisa Bubonja. {\it General Method for Summing Divergent Series. Determination of Limits of Divergent Sequences and Functions in Singular Points.} Preprint, viXra:1502.0074.
+\bibitem{har} G. H. Hardy, {\it Divergent series}, Oxford at the Clarendon Press (1949) 
+\bibitem{ram} Bruce C. Brendt, {\it Ramanujan's Notebooks}, Springer-Verlag New York Inc. (1985)
+\bibitem{tuc} John Tucciarone, {\it The Development of the Theory of Summable Divergent Series from 1880 to 1925}, Archive for History of Exact Sciences, Vol. 10, No. 1/2, (28.VI.1973), 1-40
+
+
+\end{thebibliography}
+
+
+\end{document}
